@@ -1,4 +1,4 @@
-package com.example.collegeschedule.ui.shedule
+package com.example.collegeschedule.ui.sсhedule
 
 
 import androidx.compose.foundation.layout.Column
