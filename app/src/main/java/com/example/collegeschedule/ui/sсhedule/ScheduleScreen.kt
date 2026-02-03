@@ -1,4 +1,4 @@
-package com.example.collegeschedule.utils
+package com.example.collegeschedule.ui.schedule
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -8,15 +8,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import com.example.collegeschedule.data.dto.ScheduleByDateDto
 import com.example.collegeschedule.data.network.RetrofitInstance
-import com.example.collegeschedule.ui.sсhedule.ScheduleList
+import com.example.collegeschedule.utils.getWeekDateRange
 
 @Composable
-fun ScheduleScreen() {
-
+fun ScheduleScreen(
+    modifier: Modifier = Modifier
+) {
     var schedule by remember {
-        mutableStateOf<List<ScheduleByDateDto>>(emptyList()) }
+        mutableStateOf<List<ScheduleByDateDto>>(emptyList())
+    }
     var loading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
@@ -29,15 +32,15 @@ fun ScheduleScreen() {
                 end
             )
         } catch (e: Exception) {
-            error = e.message
+            error = e.message ?: "Неизвестная ошибка"
         } finally {
             loading = false
         }
     }
 
     when {
-        loading -> CircularProgressIndicator()
-        error != null -> Text("Ошибка: $error")
-        else -> ScheduleList(schedule)
+        loading -> CircularProgressIndicator(modifier = modifier)
+        error != null -> Text("Ошибка: $error", modifier = modifier)
+        else -> ScheduleList(data = schedule, modifier = modifier)
     }
 }

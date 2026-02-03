@@ -1,5 +1,4 @@
-package com.example.collegeschedule.ui.sсhedule
-
+package com.example.collegeschedule.ui.schedule
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,8 +15,13 @@ import androidx.compose.ui.unit.dp
 import com.example.collegeschedule.data.dto.ScheduleByDateDto
 
 @Composable
-fun ScheduleList(data: List<ScheduleByDateDto>) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+fun ScheduleList(
+    data: List<ScheduleByDateDto>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize()
+    ) {
         items(data) { day ->
             Text(
                 "${day.lessonDate} (${day.weekday})",
@@ -25,7 +29,8 @@ fun ScheduleList(data: List<ScheduleByDateDto>) {
                 modifier = Modifier.padding(8.dp)
             )
             if (day.lessons.isEmpty()) {
-                Text("Информация отсутствует",
+                Text(
+                    "Информация отсутствует",
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                 )
