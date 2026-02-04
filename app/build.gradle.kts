@@ -81,4 +81,15 @@ android {
         testImplementation(libs.junit)
         androidTestImplementation(libs.androidx.junit)
         androidTestImplementation(libs.androidx.espresso.core)
+
+
+        implementation("androidx.datastore:datastore-preferences:1.1.1")
+// Lifecycle для ViewModel
+        implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+        implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+        implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+// Для ViewModel в Compose
+        implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+// Material Design иконки
+        implementation("androidx.compose.material:material-icons-extended:1.6.2")
     }

@@ -15,17 +15,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.collegeschedule.data.api.ScheduleApi
+import com.example.collegeschedule.data.repository.FavoritesRepository
 import com.example.collegeschedule.data.repository.ScheduleRepository
+import com.example.collegeschedule.ui.favorites.FavoritesScreen
 import com.example.collegeschedule.ui.schedule.ScheduleScreen
 import com.example.collegeschedule.ui.theme.CollegeScheduleTheme
 import retrofit2.Retrofit
@@ -49,15 +47,19 @@ fun CollegeScheduleApp() {
     var currentDestination by rememberSaveable {
         mutableStateOf(AppDestinations.HOME)
     }
+    var selectedGroupFromFavorites by remember { mutableStateOf<String?>(null) }
 
     val retrofit = remember {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5268/") // localhost для Android Emulator
+            .baseUrl("http://10.0.2.2:5227/") // ← Поменял порт на 5227 (ваш API порт)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
     val api = remember { retrofit.create(ScheduleApi::class.java) }
     val repository = remember { ScheduleRepository(api) }
+
+    // Для передачи данных между экранами
+    var groupToShow by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         bottomBar = {
@@ -72,7 +74,13 @@ fun CollegeScheduleApp() {
                         },
                         label = { Text(destination.label) },
                         selected = destination == currentDestination,
-                        onClick = { currentDestination = destination }
+                        onClick = {
+                            currentDestination = destination
+                            // При переходе на HOME, сбрасываем выбранную группу
+                            if (destination == AppDestinations.HOME) {
+                                groupToShow = null
+                            }
+                        }
                     )
                 }
             }
@@ -80,26 +88,35 @@ fun CollegeScheduleApp() {
     ) { innerPadding ->
         when (currentDestination) {
             AppDestinations.HOME -> ScheduleScreen(
+                initialGroup = groupToShow, // Передаём группу для автовыбора
+                onNavigateToFavorites = {
+                    currentDestination = AppDestinations.FAVORITES
+                },
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
             )
 
-            AppDestinations.FAVORITES ->
-                Text(
-                    "Избранные группы",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                )
+            AppDestinations.FAVORITES -> FavoritesScreen(
+                onBackClick = {
+                    currentDestination = AppDestinations.HOME
+                },
+                onGroupSelected = { groupName ->
+                    // Сохраняем выбранную группу и переходим к расписанию
+                    groupToShow = groupName
+                    currentDestination = AppDestinations.HOME
+                },
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            )
 
-            AppDestinations.PROFILE ->
-                Text(
-                    "Профиль студента",
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                )
+            AppDestinations.PROFILE -> Text(
+                "Профиль студента",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            )
         }
     }
 }
@@ -108,7 +125,7 @@ enum class AppDestinations(
     val label: String,
     val icon: ImageVector,
 ) {
-    HOME("Home", Icons.Default.Home),
-    FAVORITES("Favorites", Icons.Default.Favorite),
-    PROFILE("Profile", Icons.Default.AccountBox),
+    HOME("Главная", Icons.Default.Home),
+    FAVORITES("Избранное", Icons.Default.Favorite),
+    PROFILE("Профиль", Icons.Default.AccountBox),
 }
