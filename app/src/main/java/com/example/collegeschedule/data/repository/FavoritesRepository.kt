@@ -16,7 +16,6 @@ class FavoritesRepository(context: Context) {
     private fun getFavorites(): Set<String> {
         return sharedPref.getStringSet(FAVORITES_KEY, emptySet()) ?: emptySet()
     }
-
     fun toggleFavorite(groupName: String) {
         val current = getFavorites().toMutableSet()
         if (groupName in current) {
@@ -30,15 +29,12 @@ class FavoritesRepository(context: Context) {
         }
         _favoriteGroups.value = current
     }
-
     fun isFavorite(groupName: String): Boolean {
         return groupName in getFavorites()
     }
-
     fun getFavoritesList(): List<String> {
         return getFavorites().toList().sorted()
     }
-
     fun addFavorite(groupName: String) {
         val current = getFavorites().toMutableSet()
         current.add(groupName)

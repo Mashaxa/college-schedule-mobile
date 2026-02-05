@@ -29,22 +29,19 @@ fun FavoritesScreen(
     var favoriteGroups by remember { mutableStateOf(favoritesRepository.getFavoritesList()) }
     var deletingGroup by remember { mutableStateOf<String?>(null) }
 
-    // Простая анимация: удаляем группу через 200ms после нажатия
     LaunchedEffect(deletingGroup) {
         if (deletingGroup != null) {
-            delay(200) // Короткая задержка для анимации
+            delay(200)
             favoritesRepository.removeFavorite(deletingGroup!!)
             favoriteGroups = favoritesRepository.getFavoritesList()
             deletingGroup = null
         }
     }
-
     Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Заголовок с кнопкой назад
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -63,11 +60,9 @@ fun FavoritesScreen(
                 style = MaterialTheme.typography.titleMedium
             )
         }
-
         Spacer(modifier = Modifier.height(16.dp))
 
         if (favoriteGroups.isEmpty()) {
-            // Красивый пустой экран
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -92,18 +87,13 @@ fun FavoritesScreen(
                 }
             }
         } else {
-            // Список с чередованием цветов и анимацией
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(favoriteGroups.sorted()) { groupName ->
-                    // Показываем карточку только если она не удаляется
                     if (deletingGroup != groupName) {
-                        // Чередование цветов для красоты
                         val index = favoriteGroups.indexOf(groupName)
                         val cardColor = if (index % 2 == 0) Blue100 else Blue200
-
-                        // Простая анимация: плавное появление/исчезновение
                         AnimatedVisibility(
                             visible = true,
                             enter = fadeIn() + expandVertically(),
@@ -122,20 +112,17 @@ fun FavoritesScreen(
                                         .padding(16.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    // Звезда с простой анимацией при наведении
                                     Icon(
                                         Icons.Filled.Star,
                                         "Избранное",
                                         modifier = Modifier.padding(end = 12.dp),
                                         tint = MaterialTheme.colorScheme.primary
                                     )
-
                                     Text(
                                         groupName,
                                         style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.weight(1f)
                                     )
-
                                     IconButton(
                                         onClick = {
                                             deletingGroup = groupName

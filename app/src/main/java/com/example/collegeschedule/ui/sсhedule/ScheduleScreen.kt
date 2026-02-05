@@ -69,7 +69,6 @@ fun ScheduleScreen(
                         },
                         modifier = Modifier.weight(1f)
                     )
-
                     Spacer(modifier = Modifier.width(8.dp))
                     IconButton(
                         onClick = {

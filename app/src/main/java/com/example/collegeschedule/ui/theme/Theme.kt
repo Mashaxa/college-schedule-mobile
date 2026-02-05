@@ -17,25 +17,25 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 //темная тема
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF90CAF9),       // Светло-голубой (акценты)
-    onPrimary = Color(0xFF003153),     // Тёмно-синий на светлом
+    primary = Color(0xFF90CAF9),
+    onPrimary = Color(0xFF003153),
 
-    secondary = Color(0xFF64B5F6),     // Средний голубой
+    secondary = Color(0xFF64B5F6),
     onSecondary = Color(0xFF003153),
 
-    tertiary = Color(0xFFB0BEC5),      // Серо-голубой
+    tertiary = Color(0xFFB0BEC5),
     onTertiary = Color(0xFF263238),
 
-    background = Color(0xFF121212),    // Тёмный фон
-    onBackground = Color(0xFFE0E0E0),  // Светло-серый текст
+    background = Color(0xFF121212),
+    onBackground = Color(0xFFE0E0E0),
 
-    surface = Color(0xFF1E1E1E),       // Тёмная поверхность
+    surface = Color(0xFF1E1E1E),
     onSurface = Color(0xFFE0E0E0),
 
-    surfaceVariant = Color(0xFF2D2D2D), // Вариант поверхности
+    surfaceVariant = Color(0xFF2D2D2D),
     onSurfaceVariant = Color(0xFFB0B0B0),
 
-    outline = Color(0xFF424242),       //границы
+    outline = Color(0xFF424242),
     outlineVariant = Color(0xFF303030)
 )
 //светлая
@@ -45,11 +45,9 @@ private val LightColorScheme = lightColorScheme(
     secondary = Color(0xFF64B5F6),
     onSecondary = Color(0xFFFFFFFF),
 
-    // Третичный - нейтральный серый
     tertiary = Color(0xFF757575),
     onTertiary = Color(0xFFFFFFFF),
 
-    // Фоны
     background = Color(0xFFF8F9FA),
     onBackground = Color(0xFF212121),
 
@@ -62,7 +60,6 @@ private val LightColorScheme = lightColorScheme(
     outline = Color(0xFFE0E0E0),
     outlineVariant = Color(0xFFEEEEEE),
 
-    // Дополнительные цвета
     primaryContainer = Color(0xFFE3F2FD),
     onPrimaryContainer = Color(0xFF01579B),
 

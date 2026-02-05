@@ -121,7 +121,6 @@ fun PrettyLessonCard(lesson: com.example.collegeschedule.data.dto.LessonDto) {
                     ) {}
 
                     Spacer(Modifier.width(8.dp))
-
                     Text(
                         "${info.building}, аудитория ${info.classroom}",
                         color = buildingColor,

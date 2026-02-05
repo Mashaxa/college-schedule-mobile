@@ -44,7 +44,6 @@ val BuildingColors = listOf(
     Gray50,
     Blue200
 )
-
 fun getBuildingColor(buildingName: String): Color {
     val buildingColorsMap = mapOf(
         "Главный" to Blue100,
@@ -58,7 +57,6 @@ fun getBuildingColor(buildingName: String): Color {
         "Корпус Экономики" to Gray50,
         "Корпус Психологии" to Blue300
     )
-
     return buildingColorsMap.entries.firstOrNull {
         buildingName.contains(it.key, ignoreCase = true)
     }?.value ?: Blue100
